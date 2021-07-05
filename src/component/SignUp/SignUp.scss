@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,700;1,100&display=swap");
+
+$mainFont: "Roboto", sans-serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.signUp {
+  width: 50%;
+  height: 100%;
+  border-radius: 0 1rem 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-start;
+  font-family: $mainFont;
+  &__title {
+    width: 70%;
+    padding: 0 1rem;
+    font-weight: 600;
+    color: rgb(78, 78, 78);
+    align-self: center;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem;
+  }
+  &__input {
+    width: 70%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    outline: none;
+    &::placeholder {
+      color: rgba(148, 148, 148, 0.7);
+    }
+    &:focus {
+      border: 1px solid rgb(245, 64, 245);
+    }
+    &-button {
+      width: 70%;
+      padding: 0.7rem 0.5rem;
+      border: 2px solid #20c999;
+      border-radius: 7px;
+      letter-spacing: 1px;
+      background: #169d79; /* fallback for old browsers */
+      background: -webkit-linear-gradient(
+        to left,
+        #20c999,
+        #169d79
+      ); /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(
+        to left,
+        #20c999,
+        #169d79
+      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 100;
+      transition: all 1s;
+      &:hover {
+        border: 2px solid #20c999;
+        color: #20c999;
+        background: #fff;
+      }
+    }
+  }
+  &__label {
+    width: 70%;
+    padding: 0.8rem 0.1rem 0.3rem;
+    font-weight: 500;
+    align-self: center;
+    color: rgb(59, 59, 59);
+  }
+  &__toggle {
+    width: 70%;
+    padding: 0.8rem 0.5rem 1.5rem;
+    display: flex;
+    font-size: 0.9rem;
+    &__checkbox {
+      cursor: pointer;
+      height: 1rem;
+      width: 1rem;
+      margin-right: 1rem;
+    }
+  }
+  &__paragraph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(145, 145, 145);
+    width: 65%;
+    margin-bottom: 1rem;
+    height: -10px;
+  }
+  &__rule {
+    width: 25%;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  &__span {
+    padding: 0 1rem;
+  }
+
+  &__google {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border: 1px solid #20c999;
+    width: 65%;
+    padding: 0.7rem 0.5rem;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
+      box-shadow: 0px 0px 20px rgb(226, 226, 226);
+    }
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0px 0px 0px;
+    }
+    &__icon {
+      display: flex;
+      justify-content: flex-end;
+      align-self: center;
+      font-size: 1.4rem;
+    }
+    &__button {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: rgb(59, 59, 59);
+      font-size: 1rem;
+      padding-left: 0.8rem;
+      cursor: pointer;
+    }
+  }
+}
+
+// input color
+input,
+select,
+textarea {
+  color: teal;
+}
+
+.logIn {
+  background-image: url("../../photo/backgroundImg.png");
+  background-size: 100% 100%;
+  width: 50%;
+  height: 100%;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fff;
+  font-family: $mainFont;
+  &__card {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 0;
+    box-sizing: border-box;
+  }
+  &__title {
+    width: 40%;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+    border: 2px solid #01ae99;
+    box-shadow: 0px 0px 10px #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.5s;
+    &:hover {
+      border: 2px solid #fff;
+    }
+  }
+  &__question {
+    font-size: 1.2rem;
+    padding: 1rem 0;
+  }
+  &__button {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    padding: 1rem;
+    width: 100%;
+    border: 2px solid #fff;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    box-shadow: 0px 0px 10px #fff;
+    border-radius: 7px;
+    color: #fff;
+    transition: all 0.5s;
+    &:hover {
+      color: #01ae99;
+      background-color: #fff;
+    }
+  }
+}
