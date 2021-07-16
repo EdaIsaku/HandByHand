@@ -1,6 +1,7 @@
 import React from "react";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
+import { MyMapComponent } from "../Map/Map";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./LogIn.scss";
@@ -16,8 +17,11 @@ const LogIn = () => {
           <Route path="/signUp">
             <SignUp />
           </Route>
+          <Route path="/map">
+            <MyMapComponent />
+          </Route>
           <Route path="/">
-            <SignUp />
+            <SignIn />
           </Route>
         </Switch>
       </Router>

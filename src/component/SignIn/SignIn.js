@@ -6,8 +6,8 @@ import { auth } from "../../firebase";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleInputChange = (ev) => {
     const { name, value } = ev.target;
@@ -20,12 +20,11 @@ const SignIn = () => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    console.log("clicked");
     auth
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email.trim(), password)
       .then((userCredential) => {
         var user = userCredential.user;
-        alert(user);
+        console.log(user);
       })
       .catch((error) => {
         console.log(error);
@@ -49,25 +48,21 @@ const SignIn = () => {
         <div className="signIn">
           <h1 className="signIn__title">Welcome back</h1>
           <form className="signIn__form" autocomplete="off">
-            <label className="signIn__label" for="text">
-              Email address
-            </label>
             <input
               onChange={handleInputChange}
               className="signIn__input"
               type="email"
               id="text"
-              placeholder="Enter your email"
+              placeholder="Email"
+              name="email"
             />
-            <label className="signIn__label" for="password">
-              Set password
-            </label>
             <input
               onChange={handleInputChange}
               className="signIn__input"
               type={showPassword ? "text" : "password"}
               id="password"
-              placeholder="Enter password"
+              name="password"
+              placeholder="Password"
               autocomplete="new-password"
               pattern="^[a-zA-Z]+$"
             />
@@ -86,7 +81,7 @@ const SignIn = () => {
               className="signIn__input-button"
               onClick={handleSubmit}
               type="submit"
-              value="Sign in "
+              value="Sign in"
             />
           </form>
         </div>
