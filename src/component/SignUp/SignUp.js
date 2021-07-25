@@ -2,40 +2,177 @@ import "./SignUp.scss";
 import React, { useState } from "react";
 import SuccessSignUp from "../SuccessSignUp/SuccessSignUp";
 import { FcGoogle } from "react-icons/fc";
-import firebase from "firebase";
-import { auth } from "../../firebase";
 import Fade from "react-reveal/Fade";
 import { Link } from "react-router-dom";
+import firebase from "firebase";
+import { auth } from "../../firebase";
 var provider = new firebase.auth.GoogleAuthProvider();
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState();
-  const [password, setPaswword] = useState();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [signedUp, setIsSignedUp] = useState(false);
 
-  const handleInputChange = (ev) => {
-    const { name, value } = ev.target;
-    if (name === "email") {
-      setEmail(value);
-    } else {
-      setPaswword(value);
+  const [errors, setErrors] = useState({
+    username: {
+      error: false,
+      message: "",
+    },
+    email: {
+      error: false,
+      message: "",
+    },
+    password: {
+      error: false,
+      message: "",
+    },
+    confirmPassword: {
+      error: false,
+      message: "",
+    },
+  });
+
+  const validateUsername = (username) => {
+    if (username.length < 6) {
+      setErrors({
+        ...errors,
+        username: {
+          error: true,
+          message: "Username should have at least 6 characters!",
+        },
+      });
     }
   };
 
+  const validateEmail = (email) => {
+    const emailRegEx = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let message = "";
+    if (!email) {
+      message = "You must enter your email!";
+    } else if (emailRegEx.test(email)) {
+      message = "";
+    } else {
+      message = "Invalid email address, please check.";
+    }
+    console.log(message);
+    setErrors({
+      ...errors,
+      email: {
+        error: message ? true : false,
+        message: "test",
+      },
+    });
+    console.log(errors);
+  };
+
+  const validatePassword = (password, confirmedPassword) => {
+    if (!password) {
+      setErrors({
+        ...errors,
+        password: {
+          error: true,
+          message: "Please fill with your password",
+        },
+      });
+    } else if (password !== confirmedPassword) {
+      setErrors({
+        ...errors,
+        password: {
+          error: true,
+          message: "Passwords don't match",
+        },
+        confirmPassword: {
+          error: true,
+          message: "",
+        },
+      });
+    }
+  };
+
+  const validateData = () => {
+    validateUsername(username);
+    validateEmail(email);
+    validatePassword(password, confirmPassword);
+  };
+
+  const handleInputChange = (ev) => {
+    let { name, value } = ev.target;
+    if (name === "username") {
+      setUsername(value);
+    } else if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else {
+      setConfirmPassword(value);
+    }
+  };
+
+  // const clearState = () => {
+  //   setEmail("");
+  //   setPassword("");
+  //   setConfirmPassword("");
+  // };
+
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        var user = userCredential.user;
-        console.log(user);
-        setIsSignedUp(true);
-        console.log(signedUp);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    validateData(email, password, confirmPassword);
+    // auth
+    //   .createUserWithEmailAndPassword(email.trim(), password)
+    //   .then((userCredential) => {
+    //     var user = userCredential.user;
+    //     console.log(user);
+    //     setIsSignedUp(true);
+    //   })
+    //   .catch((error) => {
+    //     let { email, password, confirmPassword } = errors;
+    //     console.log(error);
+
+    //     if (error.code === "auth/email-already-in-use") {
+    //       setErrors({
+    //         ...errors,
+    //         email: {
+    //           error: true,
+    //           message: error.message,
+    //         },
+    //       });
+    //     } else if (error.code === "auth/weak-password") {
+    //       setErrors({
+    //         ...errors,
+    //         password: {
+    //           error: true,
+    //           message: error.message,
+    //         },
+    //       });
+    //     } else if (email.error) {
+    //       setErrors({
+    //         ...errors,
+    //         email: {
+    //           error: true,
+    //           message: email.message,
+    //         },
+    //       });
+    //     } else if (password.error) {
+    //       setErrors({
+    //         ...errors,
+    //         password: {
+    //           error: true,
+    //           message: password.message,
+    //         },
+    //       });
+    //     } else if (confirmPassword.error) {
+    //       setErrors({
+    //         ...errors,
+    //         confirmPassword: {
+    //           error: true,
+    //           message: password.message,
+    //         },
+    //       });
+    //     }
+    //   });
   };
 
   const handleGoogleSubmit = (ev) => {
@@ -52,6 +189,7 @@ const SignUp = () => {
         console.log(error);
       });
   };
+
   return (
     <>
       {signedUp ? (
@@ -77,38 +215,77 @@ const SignUp = () => {
             <div className="signUp">
               <h1 className="signUp__title">Create account</h1>
               <form className="signUp__form" autocomplete="off">
-                <label className="signUp__label" for="text">
-                  Email address
-                </label>
+                <input
+                  onChange={handleInputChange}
+                  name="username"
+                  className={`signUp__input ${
+                    errors.username.error ? "signUp__input__error" : ""
+                  }`}
+                  type="text"
+                  id="text"
+                  placeholder="Username"
+                />
+                <p className="signUp__error">
+                  <span
+                    style={{
+                      visibility: errors.username.error ? "visible" : "hidden",
+                      border: "red",
+                    }}
+                  >
+                    {`*${errors.username.message}`}
+                  </span>
+                </p>
+
                 <input
                   onChange={handleInputChange}
                   name="email"
-                  className="signUp__input"
+                  className={`signUp__input ${
+                    errors.email.error ? "signUp__input__error" : ""
+                  }`}
                   type="email"
                   id="text"
-                  placeholder="Enter your email"
+                  placeholder="Email"
                 />
-                <label className="signUp__label" for="password">
-                  Set password
-                </label>
+                <p className="signUp__error">
+                  <span
+                    style={{
+                      visibility: errors.email.error ? "visible" : "hidden",
+                      border: "red",
+                    }}
+                  >
+                    {`*${errors.email.message}`}
+                  </span>
+                </p>
                 <input
                   onChange={handleInputChange}
                   name="password"
-                  className="signUp__input"
+                  className={`signUp__input ${
+                    errors.password.error ? "signUp__input__error" : ""
+                  }`}
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  placeholder="Enter password"
+                  placeholder="Password"
                   autocomplete="new-password"
                   pattern="^[a-zA-Z]+$"
                 />
-                <label className="signUp__label" for="confirmPassword">
-                  Confirm password
-                </label>
+                <p className="signUp__error">
+                  <span
+                    style={{
+                      visibility: errors.password.error ? "visible" : "hidden",
+                    }}
+                  >
+                    {`*${errors.password.message}`}
+                  </span>
+                </p>
                 <input
-                  className="signUp__input"
+                  onChange={handleInputChange}
+                  name="confirmPassword"
+                  className={`signUp__input ${
+                    errors.confirmPassword.error ? "signUp__input__error" : ""
+                  }`}
                   type={showPassword ? "text" : "password"}
                   id="confirmPassword"
-                  placeholder="Confirm password"
+                  placeholder="Confirm Password"
                 />
                 <div className="signUp__toggle">
                   <input

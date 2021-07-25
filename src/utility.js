@@ -1,12 +1,3 @@
-const validateEmail = (email) => {
-  const emailRegEx = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  if (emailRegEx.test(email)) {
-    console.log("ok");
-  } else {
-    console.log("Invalid email address, please check");
-  }
-};
-
 const validatePassword = (password) => {
   if (password.length < 5) {
     console.log("Password is to short");

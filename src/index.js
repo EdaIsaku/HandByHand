@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import InfoProvider from "./component/InfoContext/InfoContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <InfoProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </InfoProvider>,
   document.getElementById("root")
 );
 

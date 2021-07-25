@@ -2,8 +2,21 @@ import "./SuccessSignUp.scss";
 import React from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const SuccessSignUp = () => {
+  const handleSignOut = (ev) => {
+    ev.preventDefault();
+    auth
+      .signOut()
+      .then(() => {
+        console.log("successfully signed out");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="success">
       <FaRegCheckCircle className="success__icon" />
@@ -13,8 +26,13 @@ const SuccessSignUp = () => {
         small, is ever wasted
       </p>
       <hr className="success__rule"></hr>
-      <Link to="/signIn">
-        <input className="success__button" type="button" value="Continue" />
+      <Link to="/SignIn">
+        <input
+          className="success__button"
+          type="button"
+          value="Continue"
+          onClick={handleSignOut}
+        />
       </Link>
     </div>
   );
