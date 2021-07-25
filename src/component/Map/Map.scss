@@ -1,4 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+$mainFont: "Montserrat", sans-serif;
+
 .map {
   width: 100vw;
   height: 100vh;
+  cursor: auto;
+  &:active {
+    cursor: move;
+  }
+}
+
+//zoom button
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  position: absolute;
+  left: 95vw;
+  top: 90vh;
+  border: 2px solid rgba(170, 125, 243, 0.8);
+}
+
+//form container
+.geosearch.leaflet-bar.leaflet-control.leaflet-control-geosearch {
+  width: 30vw;
+  height: 5vh;
+  position: absolute;
+  border: none;
+  margin: 1rem;
+  -webkit-box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
+  -moz-box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
+  box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
+}
+
+.geosearch.leaflet-bar.leaflet-control.leaflet-control-geosearch > form {
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: rgb(255, 255, 255), $alpha: 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.leaflet-bar-part.leaflet-bar-part-single {
+  display: none;
+}
+
+//search
+.icon {
+  z-index: 9999;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  background-color: transparent;
+  color: rgb(160, 160, 160);
+  top: 3vh;
+  &__search {
+    opacity: 0.5;
+    left: 28vw;
+    // visibility: hidden;
+  }
+  &__pin {
+    left: 2vw;
+    color: rgb(207, 0, 0);
+  }
+}
+
+.glass {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 90%;
+  height: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem 0.5rem 3rem;
+  color: rgb(121, 121, 121);
+  font-family: $mainFont;
+  opacity: 0.8;
+  &::placeholder {
+    color: rgb(70, 70, 70);
+    opacity: 0.5;
+  }
+}
+
+.leaflet-bar a.reset {
+  //TODO toggle close icon
+  visibility: hidden;
+  font-size: 1.2rem;
+  color: rgb(70, 70, 70);
+  opacity: 0.5;
+  &:hover {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: red;
+    opacity: 1;
+  }
+}
+
+.leaflet-bar a {
+  background-color: transparent;
+  transition: all 0.5s;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+//result
+.results.active {
+  background-color: rgba($color: rgb(255, 255, 255), $alpha: 0.9);
+  position: absolute;
+  top: 5vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 10px;
+}
+
+.results.active > div {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $mainFont;
+  font-size: 1rem;
+  &:hover {
+    background-color: rgb(235, 235, 235);
+  }
 }

@@ -49,31 +49,23 @@ const SignUp = () => {
 
   const validateEmail = (email) => {
     const emailRegEx = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let message = "";
     if (!email) {
-      setErrors({
-        ...errors,
-        email: {
-          error: "error",
-          message: "You must enter your email!",
-        },
-      });
+      message = "You must enter your email!";
     } else if (emailRegEx.test(email)) {
-      setErrors({
-        ...errors,
-        email: {
-          error: false,
-          message: "",
-        },
-      });
+      message = "";
     } else {
-      setErrors({
-        ...errors,
-        email: {
-          error: "error",
-          message: "Invalid email address, please check.",
-        },
-      });
+      message = "Invalid email address, please check.";
     }
+    console.log(message);
+    setErrors({
+      ...errors,
+      email: {
+        error: message ? true : false,
+        message: "test",
+      },
+    });
+    console.log(errors);
   };
 
   const validatePassword = (password, confirmedPassword) => {
@@ -128,59 +120,59 @@ const SignUp = () => {
   const handleSubmit = (ev) => {
     ev.preventDefault();
     validateData(email, password, confirmPassword);
-    auth
-      .createUserWithEmailAndPassword(email.trim(), password)
-      .then((userCredential) => {
-        var user = userCredential.user;
-        console.log(user);
-        setIsSignedUp(true);
-      })
-      .catch((error) => {
-        let { email, password, confirmPassword } = errors;
-        console.log(error);
+    // auth
+    //   .createUserWithEmailAndPassword(email.trim(), password)
+    //   .then((userCredential) => {
+    //     var user = userCredential.user;
+    //     console.log(user);
+    //     setIsSignedUp(true);
+    //   })
+    //   .catch((error) => {
+    //     let { email, password, confirmPassword } = errors;
+    //     console.log(error);
 
-        if (error.code === "auth/email-already-in-use") {
-          setErrors({
-            ...errors,
-            email: {
-              error: true,
-              message: error.message,
-            },
-          });
-        } else if (error.code === "auth/weak-password") {
-          setErrors({
-            ...errors,
-            password: {
-              error: true,
-              message: error.message,
-            },
-          });
-        } else if (email.error) {
-          setErrors({
-            ...errors,
-            email: {
-              error: true,
-              message: email.message,
-            },
-          });
-        } else if (password.error) {
-          setErrors({
-            ...errors,
-            password: {
-              error: true,
-              message: password.message,
-            },
-          });
-        } else if (confirmPassword.error) {
-          setErrors({
-            ...errors,
-            confirmPassword: {
-              error: true,
-              message: password.message,
-            },
-          });
-        }
-      });
+    //     if (error.code === "auth/email-already-in-use") {
+    //       setErrors({
+    //         ...errors,
+    //         email: {
+    //           error: true,
+    //           message: error.message,
+    //         },
+    //       });
+    //     } else if (error.code === "auth/weak-password") {
+    //       setErrors({
+    //         ...errors,
+    //         password: {
+    //           error: true,
+    //           message: error.message,
+    //         },
+    //       });
+    //     } else if (email.error) {
+    //       setErrors({
+    //         ...errors,
+    //         email: {
+    //           error: true,
+    //           message: email.message,
+    //         },
+    //       });
+    //     } else if (password.error) {
+    //       setErrors({
+    //         ...errors,
+    //         password: {
+    //           error: true,
+    //           message: password.message,
+    //         },
+    //       });
+    //     } else if (confirmPassword.error) {
+    //       setErrors({
+    //         ...errors,
+    //         confirmPassword: {
+    //           error: true,
+    //           message: password.message,
+    //         },
+    //       });
+    //     }
+    //   });
   };
 
   const handleGoogleSubmit = (ev) => {
@@ -264,7 +256,6 @@ const SignUp = () => {
                     {`*${errors.email.message}`}
                   </span>
                 </p>
-
                 <input
                   onChange={handleInputChange}
                   name="password"
@@ -286,7 +277,6 @@ const SignUp = () => {
                     {`*${errors.password.message}`}
                   </span>
                 </p>
-
                 <input
                   onChange={handleInputChange}
                   name="confirmPassword"
@@ -297,7 +287,6 @@ const SignUp = () => {
                   id="confirmPassword"
                   placeholder="Confirm Password"
                 />
-
                 <div className="signUp__toggle">
                   <input
                     className="signUp__toggle__checkbox"
@@ -309,7 +298,6 @@ const SignUp = () => {
                     Show password
                   </label>
                 </div>
-
                 <input
                   className="signUp__input-button"
                   type="submit"
@@ -317,7 +305,6 @@ const SignUp = () => {
                   onClick={handleSubmit}
                 />
               </form>
-
               <p className="signUp__paragraph">
                 <hr className="signUp__rule" />
                 <span className="signUp__span">or</span>

@@ -1,13 +1,15 @@
 import "./SignIn.scss";
 import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../firebase";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  let history = useHistory();
 
   const handleInputChange = (ev) => {
     const { name, value } = ev.target;
@@ -24,8 +26,11 @@ const SignIn = () => {
       .signInWithEmailAndPassword(email.trim(), password)
       .then((userCredential) => {
         var user = userCredential.user;
-        console.log(user);
+        setIsSignedIn(true);
+        console.log("from signIn-Signed In", user, isSignedIn);
+        history.push("./map");
       })
+      .then(() => {})
       .catch((error) => {
         console.log(error);
       });

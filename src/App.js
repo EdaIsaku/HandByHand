@@ -1,7 +1,7 @@
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LogIn from "./component/LogIn/LogIn";
-import { MyMapComponent } from "./component/Map/Map";
+import Map from "./component/Map/Map";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/map">
-            <MyMapComponent />
+            <Map />
           </Route>
           <Route path="/">
             <LogIn />
