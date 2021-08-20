@@ -6,9 +6,9 @@ $mainFont: "Montserrat", sans-serif;
   width: 100vw;
   height: 100vh;
   cursor: auto;
-  &:active {
-    cursor: move;
-  }
+  // &:active {
+  //   cursor: move;
+  // }
 }
 
 //zoom button
@@ -29,6 +29,7 @@ $mainFont: "Montserrat", sans-serif;
   -webkit-box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
   -moz-box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
   box-shadow: 0px 0px 13px -3px rgba(133, 133, 133, 1);
+  opacity: 0.8;
 }
 
 .geosearch.leaflet-bar.leaflet-control.leaflet-control-geosearch > form {
@@ -54,11 +55,6 @@ $mainFont: "Montserrat", sans-serif;
   background-color: transparent;
   color: rgb(160, 160, 160);
   top: 3vh;
-  &__search {
-    opacity: 0.5;
-    left: 28vw;
-    // visibility: hidden;
-  }
   &__pin {
     left: 2vw;
     color: rgb(207, 0, 0);
@@ -74,28 +70,26 @@ $mainFont: "Montserrat", sans-serif;
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.5rem 0.5rem 0.5rem 3rem;
-  color: rgb(121, 121, 121);
+  color: rgb(18, 18, 18);
   font-family: $mainFont;
-  opacity: 0.8;
   &::placeholder {
-    color: rgb(70, 70, 70);
-    opacity: 0.5;
+    color: rgb(18, 18, 18);
   }
 }
 
 .leaflet-bar a.reset {
   //TODO toggle close icon
-  visibility: hidden;
-  font-size: 1.2rem;
-  color: rgb(70, 70, 70);
-  opacity: 0.5;
-  &:hover {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    color: red;
-    opacity: 1;
-  }
+  display: none;
+  // font-size: 1.2rem;
+  // color: rgb(70, 70, 70);
+  // opacity: 0.5;
+  // &:hover {
+  //   border: none;
+  //   outline: none;
+  //   background-color: transparent;
+  //   color: red;
+  //   opacity: 1;
+  // }
 }
 
 .leaflet-bar a {

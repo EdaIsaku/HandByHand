@@ -1,38 +1,93 @@
 import "./SignIn.scss";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Fade from "react-reveal/Fade";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../../firebase";
+import Input from "../Input/Input";
+import Error from "../Error/Error";
+
+import { SharedStateContext } from "../SharedState/SharedState";
 
 const SignIn = () => {
+  const [sharedState, setSharedState] = useContext(SharedStateContext);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [errors, setErrors] = useState({
+    email: {
+      error: false,
+      message: "",
+    },
+    password: {
+      error: false,
+      message: "",
+    },
+  });
+
   let history = useHistory();
 
   const handleInputChange = (ev) => {
     const { name, value } = ev.target;
     if (name === "email") {
-      setEmail(value);
+      setSharedState((prevState) => ({
+        ...prevState,
+        email: value,
+      }));
+      setErrors((prevErrors) => {
+        return {
+          ...prevErrors,
+          email: {
+            error: false,
+            message: "",
+          },
+        };
+      });
     } else {
       setPassword(value);
+      setErrors((prevErrors) => {
+        return {
+          ...prevErrors,
+          password: {
+            error: false,
+            message: "",
+          },
+        };
+      });
     }
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
     auth
-      .signInWithEmailAndPassword(email.trim(), password)
+      .signInWithEmailAndPassword(sharedState.email.trim(), password)
       .then((userCredential) => {
         var user = userCredential.user;
-        setIsSignedIn(true);
-        console.log("from signIn-Signed In", user, isSignedIn);
+        console.log("from signIn-Signed In", user);
         history.push("./map");
       })
-      .then(() => {})
       .catch((error) => {
         console.log(error);
+        if (error.code === "auth/invalid-email") {
+          setErrors((prevErrors) => {
+            return {
+              ...prevErrors,
+              email: {
+                error: true,
+                message: error.message,
+              },
+            };
+          });
+        }
+        if (error.code === "auth/wrong-password") {
+          setErrors((prevErrors) => {
+            return {
+              ...prevErrors,
+              password: {
+                error: true,
+                message: error.message,
+              },
+            };
+          });
+        }
       });
   };
 
@@ -53,42 +108,58 @@ const SignIn = () => {
         <div className="signIn">
           <h1 className="signIn__title">Welcome back</h1>
           <form className="signIn__form" autocomplete="off">
-            <input
-              onChange={handleInputChange}
+            <Input
               className="signIn__input"
-              type="email"
-              id="text"
               placeholder="Email"
               name="email"
+              id="text"
+              type="email"
+              handleInputChange={handleInputChange}
             />
-            <input
-              onChange={handleInputChange}
+            <Error
+              className="signUp__error"
+              value={errors.email.message}
+              error={errors.email.error}
+            />
+            <Input
               className="signIn__input"
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
               placeholder="Password"
+              name="password"
+              id="password"
+              type={showPassword ? "text" : "password"}
               autocomplete="new-password"
               pattern="^[a-zA-Z]+$"
+              handleInputChange={handleInputChange}
+            />
+            <Error
+              className="signUp__error"
+              value={errors.password.message}
+              error={errors.password.error}
             />
             <div className="signIn__toggle">
-              <input
+              <Input
                 className="signIn__toggle__checkbox"
-                type="checkbox"
                 id="showPassword"
-                onClick={() => setShowPassword(!showPassword)}
+                type="checkbox"
+                handleClick={() => setShowPassword(!showPassword)}
               />
               <label className="signIn__toggle__label" for="showPassword">
                 Show password
               </label>
             </div>
-            <input
+            <Input
               className="signIn__input-button"
-              onClick={handleSubmit}
               type="submit"
               value="Sign in"
+              handleClick={handleSubmit}
             />
           </form>
+          <p
+            className="forgot__password"
+            onClick={() => history.push("/forgotPassword")}
+          >
+            Forgot your password ?
+          </p>
         </div>
       </Fade>
     </>

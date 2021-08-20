@@ -1,0 +1,215 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Tangerine&display=swap");
+
+$mainFont: "Tangerine", cursive;
+$secondFont: "Montserrat", sans-serif;
+
+.modal__background {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  width: 65%;
+  height: 80%;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.8);
+  -moz-box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem 2rem;
+  &__title {
+    font-size: 4rem;
+    letter-spacing: 1px;
+    font-family: $mainFont;
+    color: #9dd180;
+  }
+  &__close {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 5%;
+    transition: all 0.3s;
+    &:hover {
+      cursor: pointer;
+    }
+    &__icon {
+      width: 35px;
+      height: 35px;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255);
+      color: #838383;
+      font-size: 3rem;
+      font-weight: 300;
+      transform: rotate(45deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s;
+      font-family: $secondFont;
+      &:hover {
+        box-shadow: 0px 0px 10px #ccc;
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
+  &__imageContainer {
+    width: 100%;
+    height: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    & > input {
+      display: none;
+    }
+    &__fileUpload {
+      width: 70%;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: $secondFont;
+      color: #ccc;
+      & > span {
+        margin-left: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #ccc;
+        transition: all 0.2s;
+        &:hover {
+          border-bottom: 1px solid #f200ff;
+          color: #f200ff;
+        }
+      }
+    }
+  }
+  &__image {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    & > div {
+      position: relative;
+      width: 30%;
+      height: 90%;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(237, 234, 237, 1);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(237, 234, 237, 1);
+      box-shadow: 0px 0px 10px 0px rgba(237, 234, 237, 1);
+      border-radius: 5px;
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &__description {
+      font-family: $secondFont;
+      font-weight: 300;
+      color: #ccc;
+    }
+  }
+  &__post {
+    width: 95%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    padding-bottom: 1rem;
+    &__textarea {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 100%;
+      color: #323232;
+      font-size: 1rem;
+      outline: none;
+      box-sizing: border-box;
+      resize: none;
+      padding: 1rem;
+      letter-spacing: 0.5px;
+      &::placeholder {
+        color: #ccc;
+      }
+      &:focus {
+        border: 1px solid #f200ff;
+      }
+    }
+  }
+  &__button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    &__post {
+      background: #1488cc; /* fallback for old browsers */
+      background: -webkit-linear-gradient(
+        to right,
+        #2b32b2,
+        #1488cc
+      ); /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(
+        to right,
+        #2b32b2,
+        #1488cc
+      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      border: 1px solid #004e92;
+      color: #fff;
+      transition: all 0.4s;
+      &:hover {
+        background: #1488cc; /* fallback for old browsers */
+        background: -webkit-linear-gradient(
+          to right,
+          #1488cc,
+          #2b32b2
+        ); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(
+          to right,
+          #1488cc,
+          #2b32b2
+        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      }
+    }
+    &__cancel {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      color: #58585880;
+      &:hover {
+        background-color: red;
+        color: #fff;
+        border: 1px solid red;
+      }
+    }
+  }
+}
+
+.close {
+  display: none;
+}
+
+.button {
+  cursor: pointer;
+  outline: none;
+  padding: 0.5rem 2.5rem;
+  margin: 0 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.icon {
+  &__add {
+    width: 50px;
+    height: 50px;
+  }
+}

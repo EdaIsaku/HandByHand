@@ -1,12 +1,21 @@
-import React from "react";
+import "./LogIn.scss";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import Map from "../Map/Map";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import "./LogIn.scss";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import PasswordReset from "../PasswordReset/PasswordReset";
 
 const LogIn = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+  });
+
   return (
     <div className="container">
       <Router>
@@ -18,7 +27,13 @@ const LogIn = () => {
             <SignUp />
           </Route>
           <Route path="/map">
-            <Map />
+            <Map isLoading={isLoading} />
+          </Route>
+          <Route path="/forgotPassword">
+            <ForgotPassword />
+          </Route>
+          <Route path="/passwordReset">
+            <PasswordReset isLoading={isLoading} />
           </Route>
           <Route path="/">
             <SignIn />

@@ -145,6 +145,19 @@ $mainFont: "Poppins", sans-serif;
   }
 }
 
+.forgot__password {
+  border: none;
+  border-bottom: 1px solid #fff;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  &:hover {
+    cursor: pointer;
+    border: none;
+    border-bottom: 1px solid red;
+    color: red;
+  }
+}
+
 //remove box shadow in input autocomplete
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

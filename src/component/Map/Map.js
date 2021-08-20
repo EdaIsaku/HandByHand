@@ -1,18 +1,22 @@
-import React, { useState, useContext } from "react";
 import "./Map.scss";
+import React, { useState, useContext } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
 import MarkerOnClick from "../Marker/Marker";
 import User from "../User/User";
-import { FaSearch } from "react-icons/fa";
 import { FaMapPin } from "react-icons/fa";
+import isLoadingHOC from "../isLoadingHOC";
 
-import { InfoContext } from "../InfoContext/InfoContext";
+import Modal from "../Modal/Modal";
+
+import { SharedStateContext } from "../SharedState/SharedState";
+import { auth } from "../../firebase";
 
 const Map = () => {
+  console.log();
   const [center, setCenter] = useState({ lat: 41.33, lng: 19.82 });
-  const [showInfo, setShowInfo] = useContext(InfoContext);
-
+  const [sharedState, setSharedState] = useContext(SharedStateContext);
+  const [markers, setMarkers] = useState([center]);
   //geoSearch
   const prov = OpenStreetMapProvider();
   const GeoSearchControlElement = SearchControl;
@@ -20,15 +24,22 @@ const Map = () => {
   const handleShowInfo = (ev) => {
     let elemClicked = Array.from(ev.target.classList);
     // shiko dallimin e target vs currentTarget
-    console.log("target:", ev.target, "currentTarget:", ev.currentTarget);
+    // console.log("target:", ev.target, "currentTarget:", ev.currentTarget);
     if (
       elemClicked.includes("user") ||
       elemClicked.includes("initials") ||
       ev.target.parentNode.classList[0] === "initials"
     ) {
-    } else {
-      setShowInfo(false);
+    } else if (sharedState.showInfo === true) {
+      setSharedState((prevState) => ({
+        ...prevState,
+        showInfo: !sharedState.showInfo,
+      }));
     }
+  };
+
+  const addMarker = (ev) => {
+    markers.push({ lat: ev.latlng.lat, lng: ev.latlng.lng });
   };
 
   return (
@@ -40,7 +51,13 @@ const Map = () => {
         className="map"
         whenReady={(map) => {
           map.target.on("click", function (ev) {
-            // console.log(ev.latlng);
+            if (ev.originalEvent.target.classList[0] === "map") {
+              addMarker(ev);
+              setSharedState((prevState) => ({
+                ...prevState,
+                closedModal: false,
+              }));
+            }
           });
         }}
       >
@@ -62,17 +79,19 @@ const Map = () => {
           popupFormat={({ query, result }) => result.label}
         />
         <FaMapPin className="icon icon__pin" />
-        <FaSearch className="icon icon__search" />
         <User />
-        <Marker position={center}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {markers.map((pos, idx) => {
+          <Marker position={pos} key={idx}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>;
+        })}
         <MarkerOnClick />
+        <Modal />
       </MapContainer>
     </div>
   );
 };
 
-export default Map;
+export default isLoadingHOC(Map);

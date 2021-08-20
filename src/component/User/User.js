@@ -1,19 +1,29 @@
-import React, { useContext } from "react";
+import "./User.scss";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase";
-import "./User.scss";
 
-import { InfoContext } from "../InfoContext/InfoContext";
+import { SharedStateContext } from "../SharedState/SharedState";
 
 const User = () => {
-  const [showInfo, setShowInfo] = useContext(InfoContext);
-
-  const name = "Eda";
-  const lName = "Isaku";
-  const email = "edaisaku@gmail.com";
+  console.log(auth.currentUser);
+  const [sharedState, setSharedState] = useContext(SharedStateContext);
+  const [init, setInit] = useState(() => {
+    if (auth.currentUser) {
+      let initial =
+        auth.currentUser.displayName?.slice(0, 1).toUpperCase() || "";
+      return initial;
+    }
+    return "";
+  });
+  const email = auth.currentUser.email;
+  const userName = auth.currentUser.displayName;
 
   const handleUserClick = () => {
-    setShowInfo((prevState) => !prevState);
+    setSharedState((prevState) => ({
+      ...prevState,
+      showInfo: !sharedState.showInfo,
+    }));
   };
 
   const handleSignOut = (ev) => {
@@ -30,19 +40,17 @@ const User = () => {
   return (
     <div className="user__container">
       <div className="initials" onClick={handleUserClick}>
-        <span>{name.slice(0, 1)}</span>
+        <span>{init}</span>
       </div>
       <div
         className="user"
-        style={{ transform: showInfo ? "scaleY(1)" : "scaleY(0)" }}
+        style={{ transform: sharedState.showInfo ? "scaleY(1)" : "scaleY(0)" }}
       >
         <div className="user__initials">
-          <span>{name.slice(0, 1)}</span>
+          <span>{init}</span>
         </div>
         <div className="user__info">
-          <div className="user__fullName">
-            {name} {lName}
-          </div>
+          <div className="user__fullName">{userName}</div>
           <div className="user__email">{email}</div>
         </div>
         <hr className="ruler" />
